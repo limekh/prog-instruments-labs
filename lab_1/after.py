@@ -31,28 +31,28 @@ def play():
 def names():
     # Player names input;
 
-    p1_name = input("\nEnter NAME of PLAYER 1:\t").capitalize()
-    p2_name = input("Enter NAME of PLAYER 2:\t").capitalize()
-    return (p1_name, p2_name)
+    p_1_name = input("\nEnter NAME of PLAYER 1:\t").capitalize()
+    p_2_name = input("Enter NAME of PLAYER 2:\t").capitalize()
+    return (p_1_name, p_2_name)
 
 
 def choice():
     # Player choice input;
-    p1_choice = ' '
-    p2_choice = ' '
-    while p1_choice != 'X' or p1_choice != 'O':
+    p_1_choice = ' '
+    p_2_choice = ' '
+    while p_1_choice != 'X' or p_1_choice != 'O':
         # while loop; if the entered value isn't X or O;
 
         # WHILE LOOP STARTS
 
-        p1_choice = input(f"\n{p1_name},"
+        p_1_choice = input(f"\n{p_1_name},"
                           f" Do you want to be X or O?\t")[0].upper()
         # The input above has [0].upper() in the end;
         # So the user can enter x, X, xxxx or XXX;
         # the input will always be taken as X;
         # Thereby, increasing the user input window;
 
-        if p1_choice == 'X' or p1_choice == 'O':
+        if p_1_choice == 'X' or p_1_choice == 'O':
             # if entered value is X or O; get out of the loop;
             break
         print("INVALID INPUT! Please Try Again!")
@@ -60,12 +60,12 @@ def choice():
 
         # WHILE LOOP ENDS
     # Assigning the value to p2 and then diplaying the values;
-    if p1_choice == 'X':
-        p2_choice = 'O'
-    elif p1_choice == 'O':
-        p2_choice = 'X'
+    if p_1_choice == 'X':
+        p_2_choice = 'O'
+    elif p_1_choice == 'O':
+        p_2_choice = 'X'
 
-    return (p1_choice, p2_choice)
+    return (p_1_choice, p_2_choice)
 
 
 def first_player():
@@ -106,7 +106,7 @@ def player_choice(board, name, choice):
 
 
 # THIS IS THE FUNCTION WHERE AI IS ADDED:
-def CompAI(board, name, choice):
+def comp_ai(board, name, choice):
     position = 0
     possibilities = [x for x, letter in enumerate(board)
                      if letter == ' ' and x != 0]
@@ -118,32 +118,32 @@ def CompAI(board, name, choice):
         for i in possibilities:
             # Creating a copy of the board everytime,
             # placing the move and checking if it wins;
-            # Creating a copy like this  and not this boardCopy = board,
-            # since changes to boardCopy changes the original board;
-            boardCopy = board[:]
-            boardCopy[i] = let
-            if (win_check(boardCopy, let)):
+            # Creating a copy like this  and not this board_copy = board,
+            # since changes to board_copy changes the original board;
+            board_copy = board[:]
+            board_copy[i] = let
+            if (win_check(board_copy, let)):
                 position = i
                 return position
 
-    openCorners = [x for x in possibilities if x in [1, 3, 7, 9]]
+    open_corners = [x for x in possibilities if x in [1, 3, 7, 9]]
 
-    if len(openCorners) > 0:
-        position = selectRandom(openCorners)
+    if len(open_corners) > 0:
+        position = select_random(open_corners)
         return position
 
     if 5 in possibilities:
         position = 5
         return position
 
-    openEdges = [x for x in possibilities if x in [2, 4, 6, 8]]
+    open_edges = [x for x in possibilities if x in [2, 4, 6, 8]]
 
-    if len(openEdges) > 0:
-        position = selectRandom(openEdges)
+    if len(open_edges) > 0:
+        position = select_random(open_edges)
         return position
 
 
-def selectRandom(board):
+def select_random(board):
     import random
     ln = len(board)
     r = random.randrange(0, ln)
@@ -218,7 +218,7 @@ while True:
     ##########################################################################
 
     # Creating the board as a list; to be kept replacing it with user input;
-    theBoard = [' '] * 10
+    the_board = [' '] * 10
 
     # Creating the available options on the board:
     available = [str(num) for num in range(0, 10)]  # a List Comprehension
@@ -230,33 +230,33 @@ while True:
     mode = int(input("\nSelect an option [0]-[2]: "))
     if mode == 1:
         # Asking Names;
-        p1_name, p2_name = names()
+        p_1_name, p_2_name = names()
         # Asking Choices; Printing choices; X or O;
-        p1_choice, p2_choice = choice()
-        print(f"\n{p1_name}:", p1_choice)
-        print(f"{p2_name}:", p2_choice)
+        p_1_choice, p_2_choice = choice()
+        print(f"\n{p_1_name}:", p_1_choice)
+        print(f"{p_2_name}:", p_2_choice)
 
     elif mode == 0:
-        p1_name = input("\nEnter NAME of PLAYER"
+        p_1_name = input("\nEnter NAME of PLAYER"
                         " who will go against the Computer:\t").capitalize()
-        p2_name = "Computer"
+        p_2_name = "Computer"
         # Asking Choices; Printing choices; X or O;
-        p1_choice, p2_choice = choice()
-        print(f"\n{p1_name}:", p1_choice)
-        print(f"{p2_name}:", p2_choice)
+        p_1_choice, p_2_choice = choice()
+        print(f"\n{p_1_name}:", p_1_choice)
+        print(f"{p_2_name}:", p_2_choice)
 
     else:
-        p1_name = "Computer1"
-        p2_name = "Computer2"
-        p1_choice, p2_choice = "X", "O"
-        print(f"\n{p1_name}:", p1_choice)
-        print(f"\n{p2_name}:", p2_choice)
+        p_1_name = "Computer1"
+        p_2_name = "Computer2"
+        p_1_choice, p_2_choice = "X", "O"
+        print(f"\n{p_1_name}:", p_1_choice)
+        print(f"\n{p_2_name}:", p_2_choice)
 
     # Printing randomly who will go first;
     if first_player():
-        turn = p2_name
+        turn = p_2_name
     else:
-        turn = p1_name
+        turn = p_1_name
 
     print(f"\n{turn} will go first!")
 
@@ -272,28 +272,28 @@ while True:
 
         ############################
         # PLAYER1
-        if turn == p1_name:
+        if turn == p_1_name:
 
             # Displaying the board;
-            display_board(theBoard, available)
+            display_board(the_board, available)
 
             # Position of the input;
             if mode != 2:
-                position = player_choice(theBoard, p1_name, p1_choice)
+                position = player_choice(the_board, p_1_name, p_1_choice)
             else:
-                position = CompAI(theBoard, p1_name, p1_choice)
-                print(f'\n{p1_name} ({p1_choice}) has placed on {position}\n')
+                position = comp_ai(the_board, p_1_name, p_1_choice)
+                print(f'\n{p_1_name} ({p_1_choice}) has placed on {position}\n')
 
             # Replacing the ' ' at *position*
             # to *p1_choice* in *theBoard* list;
-            place_marker(theBoard, available, p1_choice, position)
+            place_marker(the_board, available, p_1_choice, position)
 
             # To check if Player 1 has won after the current input;
-            if win_check(theBoard, p1_choice):
-                display_board(theBoard, available)
+            if win_check(the_board, p_1_choice):
+                display_board(the_board, available)
                 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                 if (mode):
-                    print(f'\n\nCONGRATULATIONS {p1_name}!'
+                    print(f'\n\nCONGRATULATIONS {p_1_name}!'
                           f' YOU HAVE WON THE GAME!\n\n')
                 else:
                     print('\n\nTHE Computer HAS WON THE GAME!\n\n')
@@ -302,42 +302,42 @@ while True:
 
             else:
                 # To check if the board is full; if yes, the game is a draw;
-                if full_board_check(theBoard):
-                    display_board(theBoard, available)
+                if full_board_check(the_board):
+                    display_board(the_board, available)
                     print("~~~~~~~~~~~~~~~~~~")
                     print('\nThe game is a DRAW!\n')
                     print("~~~~~~~~~~~~~~~~~~")
                     break
                 # If none of the above is possible, next turn of Player 2;
                 else:
-                    turn = p2_name
+                    turn = p_2_name
 
 
         ############################
         # PLAYER2
-        elif turn == p2_name:
+        elif turn == p_2_name:
 
             # Displaying the board;
-            display_board(theBoard, available)
+            display_board(the_board, available)
 
             # Position of the input;
             if (mode == 1):
-                position = player_choice(theBoard, p2_name, p2_choice)
+                position = player_choice(the_board, p_2_name, p_2_choice)
             else:
-                position = CompAI(theBoard, p2_name, p2_choice)
-                print(f'\n{p2_name} ({p2_choice})'
+                position = comp_ai(the_board, p_2_name, p_2_choice)
+                print(f'\n{p_2_name} ({p_2_choice})'
                       f' has placed on {position}\n')
 
             # Replacing the ' ' at *position*
             # to *p2_choice* in *theBoard* list;
-            place_marker(theBoard, available, p2_choice, position)
+            place_marker(the_board, available, p_2_choice, position)
 
             # To check if Player 2 has won after the current input;
-            if win_check(theBoard, p2_choice):
-                display_board(theBoard, available)
+            if win_check(the_board, p_2_choice):
+                display_board(the_board, available)
                 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                 if (mode):
-                    print(f'\n\nCONGRATULATIONS {p2_name}!'
+                    print(f'\n\nCONGRATULATIONS {p_2_name}!'
                           f' YOU HAVE WON THE GAME!\n\n')
                 else:
                     print('\n\nTHE Computer HAS WON THE GAME!\n\n')
@@ -346,15 +346,15 @@ while True:
 
             else:
                 # To check if the board is full; if yes, the game is a draw;
-                if full_board_check(theBoard):
-                    display_board(theBoard, available)
+                if full_board_check(the_board):
+                    display_board(the_board, available)
                     print("~~~~~~~~~~~~~~~~~~")
                     print('\nThe game is a DRAW!\n')
                     print("~~~~~~~~~~~~~~~~~~")
                     break
                 # If none of the above is possible, next turn of Player 2;
                 else:
-                    turn = p1_name
+                    turn = p_1_name
 
     # If the users want to play the game again?
     if replay():
