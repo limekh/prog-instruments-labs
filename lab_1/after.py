@@ -312,7 +312,6 @@ while True:
                 else:
                     turn = p_2_name
 
-
         ############################
         # PLAYER2
         elif turn == p_2_name:
