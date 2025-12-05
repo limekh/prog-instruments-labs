@@ -46,7 +46,7 @@ def choice():
         # WHILE LOOP STARTS
 
         p_1_choice = input(f"\n{p_1_name},"
-                          f" Do you want to be X or O?\t")[0].upper()
+                           f" Do you want to be X or O?\t")[0].upper()
         # The input above has [0].upper() in the end;
         # So the user can enter x, X, xxxx or XXX;
         # the input will always be taken as X;
@@ -238,7 +238,7 @@ while True:
 
     elif mode == 0:
         p_1_name = input("\nEnter NAME of PLAYER"
-                        " who will go against the Computer:\t").capitalize()
+                         " who will go against the Computer:\t").capitalize()
         p_2_name = "Computer"
         # Asking Choices; Printing choices; X or O;
         p_1_choice, p_2_choice = choice()
