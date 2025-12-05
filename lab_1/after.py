@@ -215,7 +215,6 @@ default()
 rules()
 
 while True:
-    ##########################################################################
 
     # Creating the board as a list; to be kept replacing it with user input;
     the_board = [' '] * 10
@@ -270,7 +269,6 @@ while True:
 
     while play_game:
 
-        ############################
         # PLAYER1
         if turn == p_1_name:
 
@@ -312,7 +310,6 @@ while True:
                 else:
                     turn = p_2_name
 
-        ############################
         # PLAYER2
         elif turn == p_2_name:
 
@@ -363,7 +360,6 @@ while True:
         # if No;
         break
 
-    ##########################################################################
 
 print("\n\n\t\t\tTHE END!")
 
