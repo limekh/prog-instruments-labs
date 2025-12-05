@@ -6,7 +6,7 @@
 # FUNCTIONS;
 
 def default():
-    # To be printed as Default;
+    """To be printed as Default"""
     print("\nWelcome! Let's play TIC TAC TOE!\n")
 
 
@@ -23,21 +23,20 @@ def rules():
 
 
 def play():
-    # Asking if the player is ready;
+    """Asking if the player is ready"""
     return input("\nAre you ready to play the game?"
                  " Enter [Y]es or [N]o.\t").upper().startswith('Y')
 
 
 def names():
-    # Player names input;
-
+    """Player names input"""
     p_1_name = input("\nEnter NAME of PLAYER 1:\t").capitalize()
     p_2_name = input("Enter NAME of PLAYER 2:\t").capitalize()
     return (p_1_name, p_2_name)
 
 
 def choice():
-    # Player choice input;
+    """Player choice input"""
     p_1_choice = ' '
     p_2_choice = ' '
     while p_1_choice != 'X' or p_1_choice != 'O':
@@ -69,7 +68,7 @@ def choice():
 
 
 def first_player():
-    # This function will randomly decide who will go first;
+    """This function will randomly decide who will go first"""
     import random
     return random.choice((0, 1))
 
@@ -105,8 +104,8 @@ def player_choice(board, name, choice):
     return position
 
 
-# THIS IS THE FUNCTION WHERE AI IS ADDED:
 def comp_ai(board, name, choice):
+    """THIS IS THE FUNCTION WHERE AI IS ADDED"""
     position = 0
     possibilities = [x for x, letter in enumerate(board)
                      if letter == ' ' and x != 0]
@@ -151,18 +150,18 @@ def select_random(board):
 
 
 def place_marker(board, avail, choice, position):
-    # To mark/replace the position on the board list;
+    """To mark/replace the position on the board list"""
     board[position] = choice
     avail[position] = ' '
 
 
 def space_check(board, position):
-    # To check whether the given position is empty or occupied;
+    """To check whether the given position is empty or occupied"""
     return board[position] == ' '
 
 
 def full_board_check(board):
-    # To check if the board is full, then the game is a draw;
+    """To check if the board is full, then the game is a draw"""
     for i in range(1, 10):
         if space_check(board, i):
             return False
@@ -170,8 +169,7 @@ def full_board_check(board):
 
 
 def win_check(board, choice):
-    # To check if one of the following patterns are true;
-    # then the respective player has won!;
+    """To check if one of the following patterns are true; then the respective player has won!"""
 
     # HORIZONTAL CHECK;
     return (
@@ -201,7 +199,7 @@ def delay(mode):
 
 
 def replay():
-    # If the users want to play the game again?
+    """If the users want to play the game again?"""
     return input('\nDo you want to play again?'
                  ' Enter [Y]es or [N]o: ').lower().startswith('y')
 
