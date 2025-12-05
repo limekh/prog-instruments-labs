@@ -169,7 +169,8 @@ def full_board_check(board):
 
 
 def win_check(board, choice):
-    """To check if one of the following patterns are true; then the respective player has won!"""
+    """To check if one of the following patterns are true; then the respective
+     player has won!"""
 
     # HORIZONTAL CHECK;
     return (
