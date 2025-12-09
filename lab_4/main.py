@@ -1,3 +1,14 @@
+CENTER = 5
+CORNERS = [1, 3, 7, 9]
+EDGES = [2, 4, 6, 8]
+POSITIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+WIN_COMBINATIONS = [
+    [1, 2, 3], [4, 5, 6], [7, 8, 9],
+    [1, 4, 7], [2, 5, 8], [3, 6, 9],
+    [1, 5, 9], [3, 5, 7]
+]
+
+
 def default():
     """To be printed as Default"""
     print("\nWelcome! Let's play TIC TAC TOE!\n")
@@ -76,10 +87,10 @@ def display_board(board, avail):
 def player_choice(board, name, choice):
     position = 0
     # Initialising position as 0^; so it passes through the while loop;
-    while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not space_check(board, position):
+    while position not in POSITIONS or not space_check(board, position):
         position = int(input(f'\n{name} ({choice}), Choose your next position: (1-9) \t'))
 
-        if position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not space_check(board, position) or position == "":
+        if position not in POSITIONS or not space_check(board, position) or position == "":
             # To check whether the given position is in the set [1-9] or whether it is empty or occupied;
             print(f"INVALID INPUT. Please Try Again!\n")
     print("\n")
@@ -102,17 +113,17 @@ def CompAI(board, name, choice):
                 position = i
                 return position
 
-    openCorners = [x for x in possibilities if x in [1, 3, 7, 9]]
+    openCorners = [x for x in possibilities if x in CORNERS]
 
     if len(openCorners) > 0:
         position = selectRandom(openCorners)
         return position
 
-    if 5 in possibilities:
-        position = 5
+    if CENTER in possibilities:
+        position = CENTER
         return position
 
-    openEdges = [x for x in possibilities if x in [2, 4, 6, 8]]
+    openEdges = [x for x in possibilities if x in EDGES]
 
     if len(openEdges) > 0:
         position = selectRandom(openEdges)
@@ -147,19 +158,7 @@ def full_board_check(board):
 
 def win_check(board, choice):
     """To check if one of the following patterns are true; then the respective player has won!"""
-
-    # HORIZONTAL CHECK;
-    return (
-            (board[1] == choice and board[2] == choice and board[3] == choice)
-            or (board[4] == choice and board[5] == choice and board[6] == choice)
-            or (board[7] == choice and board[8] == choice and board[9] == choice)
-            # VERTICAL CHECK;
-            or (board[1] == choice and board[4] == choice and board[7] == choice)
-            or (board[2] == choice and board[5] == choice and board[8] == choice)
-            or (board[3] == choice and board[6] == choice and board[9] == choice)
-            # DIAGONAL CHECK;
-            or (board[1] == choice and board[5] == choice and board[9] == choice)
-            or (board[3] == choice and board[5] == choice and board[7] == choice))
+    return any(all(board[pos] == choice for pos in combo) for combo in WIN_COMBINATIONS)
 
 
 def delay(mode):
