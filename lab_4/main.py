@@ -1,3 +1,6 @@
+import random
+
+
 CENTER = 5
 CORNERS = [1, 3, 7, 9]
 EDGES = [2, 4, 6, 8]
@@ -69,7 +72,6 @@ def choice(p1_name):
 
 def first_player():
     """This function will randomly decide who will go first"""
-    import random
     return random.choice((0, 1))
 
 
@@ -145,7 +147,6 @@ def CompAI(board, name, choice):
 
 
 def selectRandom(board):
-    import random
     ln = len(board)
     r = random.randrange(0, ln)
     return board[r]
@@ -188,12 +189,6 @@ def print_draw_message():
     print("~~~~~~~~~~~~~~~~~~")
     print('\nThe game is a DRAW!\n')
     print("~~~~~~~~~~~~~~~~~~")
-
-
-def delay(mode):
-    if mode == 2:
-        import time
-        time.sleep(2)
 
 
 def replay():
