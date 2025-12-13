@@ -38,11 +38,11 @@ def names():
     return (p1_name, p2_name)
 
 
-def choice():
+def choice(p1_name):
     """Player choice input"""
     p1_choice = ' '
     p2_choice = ' '
-    while p1_choice != 'X' or p1_choice != 'O':  # while loop; if the entered value isn't X or O;
+    while p1_choice != 'X' and p1_choice != 'O':  # while loop; if the entered value isn't X or O;
 
         # WHILE LOOP STARTS
 
@@ -94,6 +94,20 @@ def player_choice(board, name, choice):
             # To check whether the given position is in the set [1-9] or whether it is empty or occupied;
             print(f"INVALID INPUT. Please Try Again!\n")
     print("\n")
+    return position
+
+
+def make_move(player_name, player_choice, board, available, mode):
+    """Processing a player's move"""
+    display_board(board, available)
+
+    if (mode == 1 and player_name != "Computer") or (mode == 0 and player_name != "Computer"):
+        position = player_choice(board, player_name, player_choice)
+    else:
+        position = CompAI(board, player_name, player_choice)
+        print(f'\n{player_name} ({player_choice}) has placed on {position}\n')
+
+    place_marker(board, available, player_choice, position)
     return position
 
 
@@ -159,6 +173,21 @@ def full_board_check(board):
 def win_check(board, choice):
     """To check if one of the following patterns are true; then the respective player has won!"""
     return any(all(board[pos] == choice for pos in combo) for combo in WIN_COMBINATIONS)
+
+
+def print_win_message(player_name, mode):
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    if (mode):
+        print(f'\n\nCONGRATULATIONS {player_name}! YOU HAVE WON THE GAME!\n\n')
+    else:
+        print('\n\nTHE Computer HAS WON THE GAME!\n\n')
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+
+def print_draw_message():
+    print("~~~~~~~~~~~~~~~~~~")
+    print('\nThe game is a DRAW!\n')
+    print("~~~~~~~~~~~~~~~~~~")
 
 
 def delay(mode):
@@ -233,37 +262,19 @@ while True:
         # PLAYER1
         if turn == p1_name:
 
-            # Displaying the board;
-            display_board(theBoard, available)
-
-            # Position of the input;
-            if mode != 2:
-                position = player_choice(theBoard, p1_name, p1_choice)
-            else:
-                position = CompAI(theBoard, p1_name, p1_choice)
-                print(f'\n{p1_name} ({p1_choice}) has placed on {position}\n')
-
-            # Replacing the ' ' at *position* to *p1_choice* in *theBoard* list;
-            place_marker(theBoard, available, p1_choice, position)
+            position = make_move(p1_name, p1_choice, theBoard, available, mode)
 
             # To check if Player 1 has won after the current input;
             if win_check(theBoard, p1_choice):
                 display_board(theBoard, available)
-                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                if (mode):
-                    print(f'\n\nCONGRATULATIONS {p1_name}! YOU HAVE WON THE GAME!\n\n')
-                else:
-                    print('\n\nTHE Computer HAS WON THE GAME!\n\n')
-                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                print_win_message(p1_name, mode)
                 play_game = False
 
             else:
                 # To check if the board is full; if yes, the game is a draw;
                 if full_board_check(theBoard):
                     display_board(theBoard, available)
-                    print("~~~~~~~~~~~~~~~~~~")
-                    print('\nThe game is a DRAW!\n')
-                    print("~~~~~~~~~~~~~~~~~~")
+                    print_draw_message()
                     break
                 # If none of the above is possible, next turn of Player 2;
                 else:
@@ -273,37 +284,19 @@ while True:
         # PLAYER2
         elif turn == p2_name:
 
-            # Displaying the board;
-            display_board(theBoard, available)
-
-            # Position of the input;
-            if (mode == 1):
-                position = player_choice(theBoard, p2_name, p2_choice)
-            else:
-                position = CompAI(theBoard, p2_name, p2_choice)
-                print(f'\n{p2_name} ({p2_choice}) has placed on {position}\n')
-
-            # Replacing the ' ' at *position* to *p2_choice* in *theBoard* list;
-            place_marker(theBoard, available, p2_choice, position)
+            position = make_move(p2_name, p2_choice, theBoard, available, mode)
 
             # To check if Player 2 has won after the current input;
             if win_check(theBoard, p2_choice):
                 display_board(theBoard, available)
-                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                if (mode):
-                    print(f'\n\nCONGRATULATIONS {p2_name}! YOU HAVE WON THE GAME!\n\n')
-                else:
-                    print('\n\nTHE Computer HAS WON THE GAME!\n\n')
-                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                print_win_message(p2_name, mode)
                 play_game = False
 
             else:
                 # To check if the board is full; if yes, the game is a draw;
                 if full_board_check(theBoard):
                     display_board(theBoard, available)
-                    print("~~~~~~~~~~~~~~~~~~")
-                    print('\nThe game is a DRAW!\n')
-                    print("~~~~~~~~~~~~~~~~~~")
+                    print_draw_message()
                     break
                 # If none of the above is possible, next turn of Player 2;
                 else:
