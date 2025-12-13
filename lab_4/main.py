@@ -41,6 +41,22 @@ def names():
     return (p1_name, p2_name)
 
 
+def get_game_mode():
+    while True:
+        print("\nSelect game mode:")
+        print("[0]. Player vs. Computer")
+        print("[1]. Player vs. Player")
+        print("[2]. Computer vs. Computer")
+
+        try:
+            mode = int(input("\nEnter choice [0-2]: "))
+            if 0 <= mode <= 2:
+                return mode
+            print("Please enter 0, 1, or 2")
+        except ValueError:
+            print("Please enter a number!")
+
+
 def choice(p1_name):
     """Player choice input"""
     p1_choice = ' '
@@ -211,10 +227,7 @@ while True:
     available = [str(num) for num in range(0, 10)]  # a List Comprehension
     # available = '0123456789'
 
-    print("\n[0]. Player vs. Computer")
-    print("[1]. Player vs. Player")
-    print("[2]. Computer vs. Computer")
-    mode = int(input("\nSelect an option [0]-[2]: "))
+    mode = get_game_mode()
     if mode == 1:
         # Asking Names;
         p1_name, p2_name = names()
