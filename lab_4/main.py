@@ -122,7 +122,7 @@ def make_move(player_name, player_choice, board, available, mode):
     if (mode == 1 and player_name != "Computer") or (mode == 0 and player_name != "Computer"):
         position = player_choice(board, player_name, player_choice)
     else:
-        position = CompAI(board, player_name, player_choice)
+        position = comp_ai(board, player_name, player_choice)
         print(f'\n{player_name} ({player_choice}) has placed on {position}\n')
 
     place_marker(board, available, player_choice, position)
@@ -130,7 +130,7 @@ def make_move(player_name, player_choice, board, available, mode):
 
 
 # THIS IS THEFUNCTION WHERE AI IS ADDED:
-def CompAI(board, name, choice):
+def comp_ai(board, name, choice):
     position = 0
     possibilities = [x for x, letter in enumerate(board) if letter == ' ' and x != 0]
 
@@ -139,30 +139,30 @@ def CompAI(board, name, choice):
         for i in possibilities:
             # Creating a copy of the board everytime, placing the move and checking if it wins;
             # Creating a copy like this  and not this boardCopy = board, since changes to boardCopy changes the original board;
-            boardCopy = board[:]
-            boardCopy[i] = let
-            if (win_check(boardCopy, let)):
+            board_copy = board[:]
+            board_copy[i] = let
+            if (win_check(board_copy, let)):
                 position = i
                 return position
 
-    openCorners = [x for x in possibilities if x in CORNERS]
+    open_corners = [x for x in possibilities if x in CORNERS]
 
-    if len(openCorners) > 0:
-        position = selectRandom(openCorners)
+    if len(open_corners) > 0:
+        position = select_random(open_corners)
         return position
 
     if CENTER in possibilities:
         position = CENTER
         return position
 
-    openEdges = [x for x in possibilities if x in EDGES]
+    open_edges = [x for x in possibilities if x in EDGES]
 
-    if len(openEdges) > 0:
-        position = selectRandom(openEdges)
+    if len(open_edges) > 0:
+        position = select_random(open_edges)
         return position
 
 
-def selectRandom(board):
+def select_random(board):
     ln = len(board)
     r = random.randrange(0, ln)
     return board[r]
@@ -221,7 +221,7 @@ rules()
 
 while True:
     # Creating the board as a list; to be kept replacing it with user input;
-    theBoard = [' '] * 10
+    the_board = [' '] * 10
 
     # Creating the available options on the board:
     available = [str(num) for num in range(0, 10)]  # a List Comprehension
@@ -270,18 +270,18 @@ while True:
         # PLAYER1
         if turn == p1_name:
 
-            position = make_move(p1_name, p1_choice, theBoard, available, mode)
+            position = make_move(p1_name, p1_choice, the_board, available, mode)
 
             # To check if Player 1 has won after the current input;
-            if win_check(theBoard, p1_choice):
-                display_board(theBoard, available)
+            if win_check(the_board, p1_choice):
+                display_board(the_board, available)
                 print_win_message(p1_name, mode)
                 play_game = False
 
             else:
                 # To check if the board is full; if yes, the game is a draw;
-                if full_board_check(theBoard):
-                    display_board(theBoard, available)
+                if full_board_check(the_board):
+                    display_board(the_board, available)
                     print_draw_message()
                     break
                 # If none of the above is possible, next turn of Player 2;
@@ -292,18 +292,18 @@ while True:
         # PLAYER2
         elif turn == p2_name:
 
-            position = make_move(p2_name, p2_choice, theBoard, available, mode)
+            position = make_move(p2_name, p2_choice, the_board, available, mode)
 
             # To check if Player 2 has won after the current input;
-            if win_check(theBoard, p2_choice):
-                display_board(theBoard, available)
+            if win_check(the_board, p2_choice):
+                display_board(the_board, available)
                 print_win_message(p2_name, mode)
                 play_game = False
 
             else:
                 # To check if the board is full; if yes, the game is a draw;
-                if full_board_check(theBoard):
-                    display_board(theBoard, available)
+                if full_board_check(the_board):
+                    display_board(the_board, available)
                     print_draw_message()
                     break
                 # If none of the above is possible, next turn of Player 2;
