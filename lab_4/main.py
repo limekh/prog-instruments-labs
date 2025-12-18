@@ -102,7 +102,7 @@ def display_board(board, avail):
         avail[1], avail[2], avail[3]))
 
 
-def player_choice(board, name, choice):
+def player_choice_position(board, name, choice):
     position = 0
     # Initialising position as 0^; so it passes through the while loop;
     while position not in POSITIONS or not space_check(board, position):
@@ -120,13 +120,34 @@ def make_move(player_name, player_choice, board, available, mode):
     display_board(board, available)
 
     if (mode == 1 and player_name != "Computer") or (mode == 0 and player_name != "Computer"):
-        position = player_choice(board, player_name, player_choice)
+        position = player_choice_position(board, player_name, player_choice)
     else:
         position = comp_ai(board, player_name, player_choice)
         print(f'\n{player_name} ({player_choice}) has placed on {position}\n')
 
     place_marker(board, available, player_choice, position)
     return position
+
+
+def process_player_turn(player_name, player_choice, next_player_name, board, available, mode):
+    """
+    Обрабатывает ход одного игрока.
+    Возвращает кортеж: (game_continues, next_turn_name, game_ended)
+    """
+
+    position = make_move(player_name, player_choice, board, available, mode)
+
+    if win_check(board, player_choice):
+        display_board(board, available)
+        print_win_message(player_name, mode)
+        return False, None, True
+
+    if full_board_check(board):
+        display_board(board, available)
+        print_draw_message()
+        return False, None, True
+
+    return True, next_player_name, False
 
 
 # THIS IS THEFUNCTION WHERE AI IS ADDED:
@@ -232,7 +253,7 @@ while True:
         # Asking Names;
         p1_name, p2_name = names()
         # Asking Choices; Printing choices; X or O;
-        p1_choice, p2_choice = choice()
+        p1_choice, p2_choice = choice(p1_name)
         print(f"\n{p1_name}:", p1_choice)
         print(f"{p2_name}:", p2_choice)
 
@@ -240,7 +261,7 @@ while True:
         p1_name = input("\nEnter NAME of PLAYER who will go against the Computer:\t").capitalize()
         p2_name = "Computer"
         # Asking Choices; Printing choices; X or O;
-        p1_choice, p2_choice = choice()
+        p1_choice, p2_choice = choice(p1_name)
         print(f"\n{p1_name}:", p1_choice)
         print(f"{p2_name}:", p2_choice)
 
@@ -267,48 +288,24 @@ while True:
         play_game = play()
 
     while play_game:
-        # PLAYER1
         if turn == p1_name:
+            current_name, current_choice, next_name = p1_name, p1_choice, p2_name
+        else:
+            current_name, current_choice, next_name = p2_name, p2_choice, p1_name
 
-            position = make_move(p1_name, p1_choice, the_board, available, mode)
+        game_continues, next_turn, game_ended = process_player_turn(
+            current_name,
+            current_choice,
+            next_name,
+            the_board,
+            available,
+            mode
+        )
 
-            # To check if Player 1 has won after the current input;
-            if win_check(the_board, p1_choice):
-                display_board(the_board, available)
-                print_win_message(p1_name, mode)
-                play_game = False
-
-            else:
-                # To check if the board is full; if yes, the game is a draw;
-                if full_board_check(the_board):
-                    display_board(the_board, available)
-                    print_draw_message()
-                    break
-                # If none of the above is possible, next turn of Player 2;
-                else:
-                    turn = p2_name
-
-
-        # PLAYER2
-        elif turn == p2_name:
-
-            position = make_move(p2_name, p2_choice, the_board, available, mode)
-
-            # To check if Player 2 has won after the current input;
-            if win_check(the_board, p2_choice):
-                display_board(the_board, available)
-                print_win_message(p2_name, mode)
-                play_game = False
-
-            else:
-                # To check if the board is full; if yes, the game is a draw;
-                if full_board_check(the_board):
-                    display_board(the_board, available)
-                    print_draw_message()
-                    break
-                # If none of the above is possible, next turn of Player 2;
-                else:
-                    turn = p1_name
+        if game_ended:
+            play_game = False
+        elif game_continues:
+            turn = next_turn
 
     # If the users want to play the game again?
     if replay():
